@@ -71,11 +71,12 @@ for r in data:
     else:
         prod[p] = {d}
 
-    print("\rProcessing line {}".format(i), end = "")
+    print("\r [busy] Processing line {}".format(i), end = "")
     i += 1
 
 #-- close the fd (will be reused later)
 fd.close()
+print("\r [done] Processed {} lines".format(i) + 10 * " ")
 
 #
 # Step 2 -- walk the list of orders and count purchases
@@ -112,11 +113,12 @@ for r in data:
             if (j == 0):
                 res[d][1] = 1
 
-    print("\rProcessing line {}".format(i), end = "")
+    print("\r [busy] Processing line {}".format(i), end = "")
     i += 1
 
 #-- close the fd
 fd.close()
+print("\r [done] Processed {} lines".format(i) + 10 * " ")
 
 #
 # Step 3 -- sort results and write them to a file
