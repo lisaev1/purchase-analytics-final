@@ -50,7 +50,6 @@ f_ord_prods = "order_products.csv"
 # Step 1 -- process the products database (we could use csv.DictReader(), but
 # its slow as hell)...
 #
-
 fd = open(f_prods, mode = "rt", newline = "")
 data = csv.reader(fd, delimiter = ",", quotechar = '"')
 r = next(data)
@@ -80,7 +79,6 @@ fd.close()
 #
 # Step 2 -- walk the list of orders and count purchases
 #
-
 fd = open(f_ord_prods, mode = "rt", newline = "")
 data = csv.reader(fd, delimiter = ",", quotechar = '"')
 r = next(data)
@@ -121,12 +119,13 @@ fd.close()
 #
 # Step 3 -- sort results and write them to a file
 #
-
-print("\nGenerating report in ", end = "")
 res = {d: res[d] for d in \
         sorted(res.keys(), key = lambda x: int(x), reverse = False)}
+
+print("\nGenerating report in ", end = "")
 fd = open("report.csv", "wt", newline = "")
 data = csv.writer(fd, delimiter = ",", quotechar = '"', lineterminator = "\n")
+
 data.writerow(("department_id", "number_of_orders", "number_of_first_orders",
     "percentage"))
 for d in res.keys():
