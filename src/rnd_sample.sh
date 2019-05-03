@@ -1,3 +1,4 @@
+#!bash
 # Generate a random sample of the Instracart datasetwc(1).
 # requires wc(1), python3(1) and sed(1)
 # Input: filename with the dataset.
@@ -10,7 +11,7 @@ declare f x
 #
 # Number of samples
 #
-(( n_s = 50 ))
+(( n_s = 100 ))
 
 #
 # Sanitize the input
@@ -41,4 +42,4 @@ x="$(echo -E "import random; print(random.sample(range(2, ${n_l}), ${n_s}))" |\
 x="${x//, /p;}"
 x="${x#\[}"
 
-/usr/bin/sed -n "${x/\]/p}" "$f"
+/usr/bin/sed -n "1p;${x/\]/p}" "$f"

@@ -1,3 +1,4 @@
+#!python3
 import csv
 
 # The strategy is simple:
@@ -100,6 +101,7 @@ for r in data:
     j = int(r[f2i["reordered"]].lower())
     
     #-- iterate over departments associated with product "p"
+    #print("{} -> {}; {}".format(p, prod[p], j))
     for d in prod[p]:
         if (d in res.keys()):
             res[d][0] += 1
