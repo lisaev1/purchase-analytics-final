@@ -61,7 +61,7 @@ f2i = _col_idx(r, "product_id", "department_id")
 #-- build the "prod" dict
 print("Opening file " + f_prods + " ...")
 prod = {}
-i = 1
+i = 0
 for r in data:
     p = r[f2i["product_id"]].lower()
     d = r[f2i["department_id"]].lower()
@@ -91,7 +91,7 @@ f2i = _col_idx(r, "product_id", "reordered")
 #-- build the "res" dict with results
 print("\nOpening file " + f_ord_prods + " ...")
 res = {}
-i = 1
+i = 0
 for r in data:
     p = r[f2i["product_id"]].lower()
 
