@@ -25,12 +25,12 @@ def _col_idx(r, *cols):
     Input:
         r (list) -- row, read from the csv file;
         cols -- needed column names, e.g. "c1", "c2", "c3" (if a name is not
-        found in "r", its index will be -1);
+        found in "r", its index will be "a", so we apparently fail somewhere);
     Returns:
         f2i (dictionary) -- field name to index mapping.
     """
 
-    f2i = dict(zip(cols, (-1, ) * len(cols)))
+    f2i = dict(zip(cols, ("a", ) * len(cols)))
 
     for i in range(len(r)):
         p = r[i].lower()
@@ -99,18 +99,18 @@ for r in data:
     if (p not in prod.keys()):
         continue
 
-    j = int(r[f2i["reordered"]].lower())
+    j = r[f2i["reordered"]]
     
     #-- iterate over departments associated with product "p"
     #print("{} -> {}; {}".format(p, prod[p], j))
     for d in prod[p]:
         if (d in res.keys()):
             res[d][0] += 1
-            if (j == 0):
+            if (j == "0"):
                 res[d][1] += 1
         else:
             res[d] = [1, 0]
-            if (j == 0):
+            if (j == "0"):
                 res[d][1] = 1
 
     print("\r [busy] Processing line {}".format(i), end = "")
