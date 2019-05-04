@@ -131,7 +131,8 @@ done
 #
 # Print sorted results
 #
+set -o xtrace
 for d in "${!res[@]}"; do
 	IFS="@" read -ra a <<< "${res["$d"]}"
-	echo -E "$d ${a[@]} $(echo -E "scale = 3; ${a[1]} / ${a[0]}" | /usr/bin/bc -l)"
+	printf "%d %d %d %.2f\n" "$d" "${a[@]}" "$(echo -E "print 0; ${a[1]} / ${a[0]}" | /usr/bin/bc -l)"
 done | /usr/bin/sort -nk 1
