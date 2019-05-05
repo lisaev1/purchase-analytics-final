@@ -1,5 +1,5 @@
 #!python3
-import csv, sys
+import csv, argparse
 
 # The strategy is simple:
 # 1. Read "products.csv" and make a python dictionary "prods" that maps
