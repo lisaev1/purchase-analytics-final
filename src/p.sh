@@ -98,6 +98,7 @@ for p in "product_id" "reordered"; do
 done
 
 #-- read "order_products.csv" for real, skipping 1st line
+echo ""
 echo -E "Opening file $f_ord_prods ..."
 {
 	#-- check that "product_id" / "department_id" is indeed the last field
