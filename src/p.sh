@@ -144,6 +144,7 @@ printf "\r [done] Processed %d lines\n" "$(( l - 1 ))"
 #
 # Print sorted results
 #
+echo ""
 for d in "${!res[@]}"; do
 	IFS="@" read -ra a <<< "${res["$d"]}"
 	printf "%d %d %d %.2f\n" "$d" "${a[@]}" "$(echo -E "print 0; ${a[1]} / ${a[0]}" | /usr/bin/bc -l)"
