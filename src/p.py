@@ -1,5 +1,5 @@
 #!python3
-import csv
+import csv, sys
 
 # The strategy is simple:
 # 1. Read "products.csv" and make a python dictionary "prods" that maps
@@ -43,9 +43,21 @@ def _col_idx(r, *cols):
 # Main program
 # -----------------------------------------------------------------------------
 
+#-- parse cmdline arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-p", "--prod-db", type = str, default = "products.csv",
+        help = "Products database (default: products.csv)")
+ap.add_argument("-o", "--order-prod-db", type = str,
+        default = "order_products.csv",
+        help = "Database or orders (default: order_products.csv)")
+ap.add_argument("-r", "--report-to", type = str, default = "report.csv",
+        help = "Redirect report to this file (default: report.csv)")
+args = ap.parse_args()
+
 #-- filenames
-f_prods = "products.csv"
-f_ord_prods = "order_products.csv"
+f_prods = args.prod_db
+f_ord_prods = args.order_prod_db
+f_rep = args.report_to
 
 #
 # Step 1 -- process the products database (we could use csv.DictReader(), but
@@ -127,7 +139,7 @@ res = {d: res[d] for d in \
         sorted(res.keys(), key = lambda x: int(x), reverse = False)}
 
 print("\nGenerating report in ", end = "")
-fd = open("report.csv", "wt", newline = "")
+fd = open(f_rep, "wt", newline = "")
 data = csv.writer(fd, delimiter = ",", quotechar = '"', lineterminator = "\n")
 
 data.writerow(("department_id", "number_of_orders", "number_of_first_orders",
