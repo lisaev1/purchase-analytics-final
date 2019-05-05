@@ -7,6 +7,7 @@ set -o errexit
 # module. However, for this dataset one can simply split lines based on ","
 # because in "products.csv" "department_id" is te last field, so its OK if we
 # don't parse product description properly.
+# For ideas on progress indicators see http://mywiki.wooledge.org/BashFAQ/044 .
 
 # -----------------------------------------------------------------------------
 # Functions
@@ -40,7 +41,7 @@ _index() {
 # -----------------------------------------------------------------------------
 
 declare f_ord_prods f_prods p d r
-declare -i i j
+declare -i i j l
 declare -A prod res
 declare -a idx row a
 
@@ -59,6 +60,7 @@ for p in "product_id" "department_id"; do
 done
 
 #-- read "products.csv" for real, skipping 1st line
+echo -E "Opening file $f_prods ..."
 {
 	#-- check that "product_id" / "department_id" are 1st / last fields
 	IFS="," read -ra row
@@ -68,6 +70,7 @@ done
 		"WARNING: \"product_id\" is NOT the first field. Results might be incorrect!"
 
 	(( idx[1] = -1 ))
+	(( l = 1 ))
 	while IFS="," read -ra row; do
 		p="${row[idx[0]]}"
 		d="${row[idx[1]]}"
@@ -77,8 +80,12 @@ done
 		else
 			prod["$p"]="$d"
 		fi
+
+		printf "\r [busy] Processing line %d" "$l"
+		(( ++l ))
 	done
 } < "$f_prods"
+printf "\r [done] Processed %d lines\n" "$(( l - 1 ))"
 
 #
 # Parse "order_products.csv" and 
@@ -91,6 +98,7 @@ for p in "product_id" "reordered"; do
 done
 
 #-- read "order_products.csv" for real, skipping 1st line
+echo -E "Opening file $f_ord_prods ..."
 {
 	#-- check that "product_id" / "department_id" is indeed the last field
 	IFS="," read -ra row
@@ -100,6 +108,7 @@ done
 		"WARNING: \"product_id\" is NOT the first field. Results might be incorrect!"
 
 	(( idx[1] = -1 ))
+	(( l = 1 ))
 	while IFS="," read -ra row; do
 		p="${row[idx[0]]}"
 
@@ -125,8 +134,12 @@ done
 				fi
 			fi
 		done
+
+		printf "\r [busy] Processing line %d" "$l"
+		(( ++l ))
 	done
 } < "$f_ord_prods"
+printf "\r [done] Processed %d lines\n" "$(( l - 1 ))"
 
 #
 # Print sorted results
