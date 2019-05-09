@@ -9,9 +9,9 @@
 
 ## Description
 
-This repository contains a solution to the Insight Data Engineering [challenge]
-(https://github.com/InsightDataScience/Purchase-Analytics). See the link for a
-complete problem description.
+This repository contains a solution to the Insight Data Engineering
+[challenge](https://github.com/InsightDataScience/Purchase-Analytics). See the
+link for a complete problem description.
 
 ## Approach
 
@@ -40,9 +40,9 @@ ArchLinux) and **bash > 4** (tested with 5.0.3, also on Arch). The python
 program is a bit more advanced since it reads filenames from cmdline, while the
 bash script hard-codes them.
 
-The python script requires only [Python Standard Library]
-(https://docs.python.org/3/library), while the bash program needs bc(1) and
-sort(1).
+The python script requires only [Python Standard
+Library](https://docs.python.org/3/library), while the bash program needs bc(1)
+and sort(1).
 
 The full invocation is:
 ```
@@ -63,7 +63,7 @@ bash src/p.sh
 
 Finally, there is another **bash** script, `src/rnd_sample.sh` that can be used
 to produce randomized datasets for testing purposes. Indeed, the original
-[dataset] (https://www.instacart.com/datasets/grocery-shopping-2017) includes
+[dataset](https://www.instacart.com/datasets/grocery-shopping-2017) includes
 'order_products.csv' files with ~ 10^7 lines (`products.csv` database is a
 relatively small ~ 5 * 10^4 lines file). To speed up testing, it makes sense to
 randomly sample the dataset and generate a file with ~ 100 lines. That's what
@@ -78,8 +78,8 @@ tested with BSD implementations, so don't expect them to run natively on MacOS.
 
 ## Thanks
 
-1. [BashFAQ] (http://mywiki.wooledge.org/BashFAQ) -- scripting best practices;
-2. [Arch] (https://www.archlinux.org) -- amazing dev environment
+1. [BashFAQ](http://mywiki.wooledge.org/BashFAQ) -- scripting best practices;
+2. [Arch](https://www.archlinux.org) -- amazing dev environment
 
 ## License
 
