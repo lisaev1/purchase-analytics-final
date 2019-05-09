@@ -1,11 +1,11 @@
 # purchase-analytics
 
 ## Table of Contents
-1. [Description] (README.md#description)
-2. [Approach] (README.md#approach)
-3. [Usage] (README.md#usage)
-4. [Thanks] (README.md#thanks)
-5. [License] (README.md#lic)
+1. Description
+2. Approach
+3. Usage
+4. Thanks
+5. License
 
 ## Description
 
