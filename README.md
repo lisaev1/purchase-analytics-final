@@ -9,28 +9,13 @@
 
 ## Description
 
-This repository contains a solution to the Insight Data Engineering
-[challenge](https://github.com/InsightDataScience/Purchase-Analytics). See the
-link for a complete problem description.
+This repository contains a solution to the Insight Data Engineering [challenge](https://github.com/InsightDataScience/Purchase-Analytics). See the link for a complete problem description.
 
 ## Approach
 
-We adopt a standard (and not very efficient) approach of manipulating data
-using python dictionaries. Namely, we:
-1. Read `products.csv` and make a python dictionary "prods" that maps
-   "product_id" -> python set of "department_id", e.g. `prod["123"] = {"4",
-   "17"}` means that product with ID = 123 belongs to depts with ID = 4 and 17,
-   while `prod["34"] = {"2"}` means that product 34 belongs only to dept 2.
-
-2. Loop over `order_products.csv` (i.e. over "product_id") and count occurences
-   of each "department_id" extracted from "prod". Additionally, note if the
-   "reordered" field is = 0, in which case it's a 1st time order.
-
-   The results are stored in another dictionary of lists, "res" that contains
-   "department_id" as keys and lists of the form "[n_ord, n_ord_1]" for total
-   number of orders and 1st time orders, e.g. `res["4"] = [27, 13]` means that
-   dept. 4 had 27 orders, of which 13 were 1st timers.
-
+We adopt a standard (and not very efficient) approach of manipulating data using python dictionaries. Namely, we:
+1. Read `products.csv` and make a python dictionary "prods" that maps "product_id" -> python set of "department_id", e.g. `prod["123"] = {"4", "17"}` means that product with ID = 123 belongs to depts with ID = 4 and 17, while `prod["34"] = {"2"}` means that product 34 belongs only to dept 2.
+2. Loop over `order_products.csv` (i.e. over "product_id") and count occurences of each "department_id" extracted from "prod". Additionally, note if the "reordered" field is = 0, in which case it's a 1st time order. The results are stored in another dictionary of lists, "res" that contains "department_id" as keys and lists of the form "[n_ord, n_ord_1]" for total number of orders and 1st time orders, e.g. `res["4"] = [27, 13]` means that dept. 4 had 27 orders, of which 13 were 1st timers.
 3. "res" is sorted and dumped into the `report.csv` database.
 
 ## Usage
