@@ -19,6 +19,53 @@ import csv, argparse
 # Subroutines
 # -----------------------------------------------------------------------------
 
+def _parseopts():
+    """
+    Parse cmdline options to determine source and output files. The file names
+    are provided via optional arguments. Note, that repeated optional arguments
+    are not allowed. E.g. -p xxx.csv -p yyy.csv will trigger an error.
+    Returns:
+        Tuple of 3 files (products database, orders database, reports file)
+    """
+    ap = argparse.ArgumentParser(description = "Order statistics by department")
+
+    ap.add_argument("-p", "--prod-db", type = str,
+            default = ["products.csv"],
+            help = "Products database (default: products.csv)",
+            action = "append",
+            metavar = "FILE")
+
+    ap.add_argument("-o", "--order-prod-db", type = str,
+            default = ["order_products.csv"],
+            help = "Database or orders (default: order_products.csv)",
+            action = "append",
+            metavar = "FILE")
+
+    ap.add_argument("-r", "--report-to", type = str,
+            default = ["report.csv"],
+            help = "Redirect report to this file [\"-\" for stdout] (default: report.csv)",
+            action = "append",
+            metavar = "FILE")
+
+    args = ap.parse_args()
+
+    #-- abort if any flag is passed more than once
+    s = "x"
+    if (len(args.prod_db) > 2):
+        s = "products database"
+    elif (len(args.order_prod_db) > 2):
+        s = "orders database"
+    elif (len(args.report_to) > 2):
+        s = "reports"
+
+    if (s != "x"):
+        print("ERROR: Several {} files passed! Please provide only one.".format(s))
+        sys.exit(2)
+
+    return (args.prod_db[-1], args.order_prod_db[-1], args.report_to[-1])
+
+
+
 def _col_idx(r, *cols):
     """
     Returns indeces of named columns.
@@ -35,7 +82,10 @@ def _col_idx(r, *cols):
 
     for i in range(len(r)):
         p = r[i].lower()
+
         if (p in f2i.keys()):
+            if (f2i[p] != "a"):
+                print("WARNING: Column {} is encountered more than once! Using the right-most one.".format(p))
             f2i[p] = i
 
     return f2i
@@ -45,20 +95,7 @@ def _col_idx(r, *cols):
 # -----------------------------------------------------------------------------
 
 #-- parse cmdline arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--prod-db", type = str, default = "products.csv",
-        help = "Products database (default: products.csv)")
-ap.add_argument("-o", "--order-prod-db", type = str,
-        default = "order_products.csv",
-        help = "Database or orders (default: order_products.csv)")
-ap.add_argument("-r", "--report-to", type = str, default = "report.csv",
-        help = "Redirect report to this file (default: report.csv)")
-args = ap.parse_args()
-
-#-- filenames
-f_prods = args.prod_db
-f_ord_prods = args.order_prod_db
-f_rep = args.report_to
+f_prods, f_ord_prods, f_rep = _parseopts()
 
 #
 # Step 1 -- process the products database (we could use csv.DictReader(), but
@@ -134,10 +171,20 @@ fd.close()
 print("\r [done] Processed {} lines".format(i) + 10 * " ")
 
 #
-# Step 3 -- sort results and write them to a file
+# Step 3 -- sort results and write them to a file or stdout
 #
 res = {d: res[d] for d in \
         sorted(res.keys(), key = lambda x: int(x), reverse = False)}
+
+#-- report is redirected to stdout
+if (f_rep == "-"):
+    print("{},{},{},{}".format("department_id", "number_of_orders",
+        "number_of_first_orders", "percentage"))
+    for d in res.keys():
+        print("{},{},{},{:.2f}".format(d, res[d][0], res[d][1],
+            res[d][1] / res[d][0]))
+
+    sys.exit(0)
 
 print("\nGenerating report in ", end = "")
 fd = open(f_rep, "wt", newline = "")
