@@ -4,15 +4,15 @@ import csv, argparse
 # The strategy is simple:
 # 1. Read "products.csv" and make a python dictionary "prods" that maps
 #    product_id -> python set of department_id, e.g. prod["123"] = {"4", "17"}
-#    means that product with ID = 123 belongs to depts with ID = 4 and 17,
-#    while prod["34"] = {"2"} means that product 34 belongs only to dept 2.
+#    means that product 123 belongs to depts 4 and 17, while prod["34"] = {"2"}
+#    implies product 34 belongs only to dept 2.
 # 2. Loop over "order_products.csv" (i.e. over product_id) and count occurences
 #    of each department_id extracted from "prod". Additionally, note if the
 #    reordered field is = 0, in which case it's a 1st time order. The results
 #    are stored in another dictionary of lists, "res" that contains
-#    department_id as keys and lists of the form [n_ord, n_ord_1] for tot. # of
-#    orders and 1st time orders, e.g. res["4"] = [27, 13] means that dept. 4
-#    had 27 orders, of which 13 were 1st timers.
+#    department_id as keys and lists of the form [n_ord, n_ord_1] for total
+#    number of orders and 1st time orders, e.g. res["4"] = [27, 13] means that
+#    dept 4 had 27 orders, of which 13 were 1st timers.
 # 3. Rest of the code is trivial and is there to comform to the instructions.
 
 # -----------------------------------------------------------------------------
@@ -21,11 +21,12 @@ import csv, argparse
 
 def _col_idx(r, *cols):
     """
-    Return indeces of columns.
+    Returns indeces of named columns.
     Input:
         r (list) -- row, read from the csv file;
-        cols -- needed column names, e.g. "c1", "c2", "c3" (if a name is not
-        found in "r", its index will be "a", so we apparently fail somewhere);
+        cols (strings) -- required column names, e.g. "c1", "c2", "c3" (if a
+                          name is not found in "r", its index will be "a", so
+                          we fail with a bang somewhere);
     Returns:
         f2i (dictionary) -- field name to index mapping.
     """
