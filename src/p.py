@@ -186,7 +186,7 @@ print("\r [done] Processed {} lines".format(i) + 10 * " ")
 
 #-- check if the file contained useful info and quit if not
 if (i == 0):
-    print("File \"{}\" had no relevant data! Aborting.".format(f_prods))
+    print("File \"{}\" had no relevant data! Aborting.".format(f_ord_prods))
     sys.exit(1)
 
 #
