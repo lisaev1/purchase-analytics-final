@@ -69,7 +69,7 @@ def _parseopts():
 
 def _col_idx(r, *cols):
     """
-    Returns indeces of named columns.
+    Returns indices of named columns.
     Input:
         r (list) -- row, read from the csv file;
         cols (strings) -- required column names, e.g. "c1", "c2", "c3" (if a
@@ -86,7 +86,7 @@ def _col_idx(r, *cols):
 
         if (p in f2i.keys()):
             if (f2i[p] != "a"):
-                print("WARNING: Column {} is encountered more than once! Using the right-most one.".format(p))
+                print("WARNING: Column \"{}\" is encountered more than once! Using the right-most one.".format(p))
             f2i[p] = i
 
     return f2i
