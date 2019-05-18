@@ -1,5 +1,5 @@
 #!python3
-import sys, csv, argparse
+import os, sys, csv, argparse
 
 # The strategy is simple:
 # 1. Read "products.csv" and make a python dictionary "prods" that maps
@@ -25,7 +25,7 @@ def _parseopts():
     are provided via optional arguments. Note, that repeated optional arguments
     are not allowed. E.g. -p xxx.csv -p yyy.csv will trigger an error.
     Returns:
-        Tuple of 3 files (products database, orders database, reports file)
+        Tuple of 3 files (products database, orders database, reports file).
     """
     ap = argparse.ArgumentParser(description = "Order statistics by department")
 
@@ -61,7 +61,7 @@ def _parseopts():
 
     if (s != "x"):
         print("ERROR: Several {} files passed! Please provide only one.".format(s))
-        sys.exit(2)
+        sys.exit(1)
 
     return (args.prod_db[-1], args.order_prod_db[-1], args.report_to[-1])
 
@@ -98,9 +98,17 @@ def _col_idx(r, *cols):
 #-- parse cmdline arguments
 f_prods, f_ord_prods, f_rep = _parseopts()
 
+#-- check input files
+j = 2 + len("product_id")
+for fd, i in zip((f_prods, f_ord_prods),
+                 (j + len("department_id"), j + len("reordered"))):
+    if (not (os.path.isfile(fd) and (os.path.getsize(fd) >= i))):
+        print("File {} does not exist or too small! Aborting.".format(fd))
+        sys.exit(1)
+
 #
 # Step 1 -- process the products database (we could use csv.DictReader(), but
-# its slow as hell)...
+# it's slow as hell)...
 #
 fd = open(f_prods, mode = "rt", newline = "")
 data = csv.reader(fd, delimiter = ",", quotechar = '"')
