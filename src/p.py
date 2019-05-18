@@ -103,7 +103,7 @@ j = 2 + len("product_id")
 for fd, i in zip((f_prods, f_ord_prods),
                  (j + len("department_id"), j + len("reordered"))):
     if (not (os.path.isfile(fd) and (os.path.getsize(fd) >= i))):
-        print("File {} does not exist or too small! Aborting.".format(fd))
+        print("File \"{}\" does not exist or is too small! Aborting.".format(fd))
         sys.exit(1)
 
 #
@@ -136,6 +136,11 @@ for r in data:
 #-- close the fd (will be reused later)
 fd.close()
 print("\r [done] Processed {} lines".format(i) + 10 * " ")
+
+#-- check if the file contained useful info and quit if not
+if (i == 0):
+    print("File \"{}\" had no relevant data! Aborting.".format(f_prods))
+    sys.exit(1)
 
 #
 # Step 2 -- walk the list of orders and count purchases
@@ -178,6 +183,11 @@ for r in data:
 #-- close the fd
 fd.close()
 print("\r [done] Processed {} lines".format(i) + 10 * " ")
+
+#-- check if the file contained useful info and quit if not
+if (i == 0):
+    print("File \"{}\" had no relevant data! Aborting.".format(f_prods))
+    sys.exit(1)
 
 #
 # Step 3 -- sort results and write them to a file or stdout
