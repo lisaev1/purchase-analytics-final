@@ -50,13 +50,14 @@ def _parseopts():
     args = ap.parse_args()
 
     #-- abort if any flag is passed more than once
-    s = "x"
     if (len(args.prod_db) > 2):
         s = "products database"
     elif (len(args.order_prod_db) > 2):
         s = "orders database"
     elif (len(args.report_to) > 2):
         s = "reports"
+    else:
+        s = "x"
 
     if (s != "x"):
         print("ERROR: Several {} files passed! Please provide only one.".format(s))
@@ -199,4 +200,4 @@ for d in res.keys():
 #-- close the fd
 fd.close()
 
-print("report.csv!")
+print(f_rep + "!")
