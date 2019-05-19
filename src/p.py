@@ -192,14 +192,13 @@ if (i == 0):
 #
 # Step 3 -- sort results and write them to a file or stdout
 #
-res = {d: res[d] for d in \
-        sorted(res.keys(), key = lambda x: int(x), reverse = False)}
+srk = sorted(res.keys(), key = lambda x: int(x), reverse = False)
 
 #-- report is redirected to stdout
 if (f_rep == "-"):
     print("{},{},{},{}".format("department_id", "number_of_orders",
         "number_of_first_orders", "percentage"))
-    for d in res.keys():
+    for d in srk:
         print("{},{},{},{:.2f}".format(d, res[d][0], res[d][1],
             res[d][1] / res[d][0]))
 
@@ -211,7 +210,7 @@ data = csv.writer(fd, delimiter = ",", quotechar = '"', lineterminator = "\n")
 
 data.writerow(("department_id", "number_of_orders", "number_of_first_orders",
     "percentage"))
-for d in res.keys():
+for d in srk:
     data.writerow((d, res[d][0], res[d][1],
         "{:.2f}".format(res[d][1] / res[d][0])))
 
